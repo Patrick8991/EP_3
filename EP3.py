@@ -34,6 +34,7 @@ class Tic_Tac_Toe:
         self.label_status.grid(row=3,column=0,columnspan=3)
             
         self.turn = 1
+        self.lista =  [0,0,0,0,0,0,0,0,0]       
         
     def start(self):
         self.window.mainloop()
@@ -41,10 +42,12 @@ class Tic_Tac_Toe:
     def botao_clicado(self,x):
         if self.turn % 2 != 0:
             self.buttons[x].configure(text="X")
+            self.lista[x] = 1
         else:
             self.buttons[x].configure(text="O")
+            self.lista[x] = 2
         self.turn += 1
         self.buttons[x].configure(state="disabled")
-        
+    
 jogo = Tic_Tac_Toe()
 jogo.start()
