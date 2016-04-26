@@ -52,7 +52,30 @@ class Tabuleiro:
     def __init__(self):
         self.window = tk.Tk()
         self.window.geometry("400x500+500+500")
+        
+        self.nome1 = tk.StringVar()
+        self.nome2 = tk.StringVar()
+        self.n1 = ""
+        self.n2 = ""
+        
+        self.label_nome1 = tk.Label(self.window,text="Primeiro Jogador:")
+        self.label_nome1.grid(padx=140, pady=50)
+        self.text1 = tk.Entry(self.window)
+        self.text1.configure(textvariable=self.nome1)
+        self.text1.grid(padx=140)
+        self.label_nome2 = tk.Label(self.window,text="Segundo Jogador:")
+        self.label_nome2.grid(padx=140, pady=50)
+        self.text2 = tk.Entry(self.window)
+        self.text2.configure(textvariable=self.nome2)
+        self.text2.grid(padx=140)
+        
+        self.botao_nomes = tk.Button(self.window,width=10,height=4,text="JOGAR")
+        self.botao_nomes.configure(command=self.nomes)
+        self.botao_nomes.grid(padx=140, pady=50)
+        
+    def tabuleiro(self):
         self.game = Game()
+                
         for i in range(6):
             if i < 3:
                 self.window.rowconfigure(i,minsize=100,weight=1)
@@ -80,7 +103,7 @@ class Tabuleiro:
         self.label_status.grid(row=3,column=0,columnspan=3)
         
         self.label_player = tk.Label()
-        self.label_player.configure(text="Vez de X", font="BrandleyHandITC 18")
+        self.label_player.configure(text="Vez de {0}".format(self.n1), font="BrandleyHandITC 18")
         self.label_player.grid(row=4,column=0,columnspan=3)
         
         self.botao_reiniciar = tk.Button()
@@ -88,6 +111,16 @@ class Tabuleiro:
         self.botao_reiniciar.configure(command=self.rematch)
         self.botao_reiniciar.grid(row=5,column=0,columnspan=3)
             
+    def nomes(self):
+        self.n1 = self.nome1.get()
+        self.n2 = self.nome2.get()
+        self.label_nome1.grid_forget()
+        self.text1.grid_forget()
+        self.label_nome2.grid_forget()
+        self.text2.grid_forget()
+        self.botao_nomes.grid_forget()
+        self.tabuleiro()
+        
         
     def start(self):
         self.window.mainloop()
@@ -96,20 +129,20 @@ class Tabuleiro:
         self.buttons[x].configure(text="{0}".format(self.game.recieves_play()), font = "Forte 25 bold")
         if self.game.player=="X":
             self.game.matriz[y][z] = 1
-            self.label_player.configure(text="Vez de O", font="BrandleyHandITC 18")
+            self.label_player.configure(text="Vez de {0}".format(self.n2), font="BrandleyHandITC 18")
         else:
             self.game.matriz[y][z] = 4
-            self.label_player.configure(text="Vez de X", font="BrandleyHandITC 18")
+            self.label_player.configure(text="Vez de {0}".format(self.n1), font="BrandleyHandITC 18")
         self.buttons[x].configure(state="disabled")
         self.end_match()
     
     def end_match(self):
         if self.game.verify_winner()==1:
-            self.label_player.configure(text="X ganhou!", font="BrandleyHandITC 18")
+            self.label_player.configure(text="{0} ganhou!".format(self.n1), font="BrandleyHandITC 18")
             for r in range(9):
                 self.buttons[r].configure(state="disabled")
         elif self.game.verify_winner()==2:
-            self.label_player.configure(text="O ganhou!", font="BrandleyHandITC 18")
+            self.label_player.configure(text="{0} ganhou!".format(self.n2), font="BrandleyHandITC 18")
             for r in range(9):
                 self.buttons[r].configure(state="disabled")
         elif self.game.verify_winner()==0:
@@ -119,7 +152,7 @@ class Tabuleiro:
         if self.game.restart_match()==False:
             for r in range(9):
                 self.buttons[r].configure(text="",state="active")
-            self.label_player.configure(text="Vez de X", font="BrandleyHandITC 18")
+            self.label_player.configure(text="Vez de {0}".format(self.n1), font="BrandleyHandITC 18")
             self.game.turn=1
             self.game.matriz=np.zeros(shape=[3,3])
         
