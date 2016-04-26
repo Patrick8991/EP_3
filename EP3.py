@@ -64,12 +64,7 @@ class Tic_Tac_Toe:
             soma5+=self.matriz[h][1]
             soma6+=self.matriz[h][2]
             soma7+=self.matriz[h][h]
-            if h == 0:
-                soma8+=self.matriz[h][h-1]
-            elif h == 1:
-                soma8+=self.matriz[h][h]
-            elif h == 2:
-                soma8+=self.matriz[h][h-h]
+            soma8+=self.matriz[h][2-h]
         for s in range(3):
             for a in range(3):
                 soma9+=self.matriz[s][a]
@@ -80,7 +75,7 @@ class Tic_Tac_Toe:
         elif soma==12 or soma2==12 or soma3==12 or soma4==12 or soma5==12 or soma6==12 or soma7==12 or soma8==12:
             self.label_player.configure(text="O ganhou")
             for r in range(9):
-                self.buttons[r].configure(state="disabled!")
+                self.buttons[r].configure(state="disabled")
         elif soma9==21:
             self.label_player.configure(text="Deu Velha!")
         self.turn += 1
