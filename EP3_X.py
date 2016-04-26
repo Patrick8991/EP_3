@@ -76,11 +76,11 @@ class Tabuleiro:
                 self.buttons.append(self.b)
                 
         self.label_status = tk.Label()
-        self.label_status.configure(text="Tic Tac Toe")
+        self.label_status.configure(text="Tic Tac Toe", font="BodoniMTBlack 22 bold")
         self.label_status.grid(row=3,column=0,columnspan=3)
         
         self.label_player = tk.Label()
-        self.label_player.configure(text="Vez de X")
+        self.label_player.configure(text="Vez de X", font="BrandleyHandITC 18")
         self.label_player.grid(row=4,column=0,columnspan=3)
         
         self.botao_reiniciar = tk.Button()
@@ -93,33 +93,33 @@ class Tabuleiro:
         self.window.mainloop()
         
     def botao_clicado(self,x,y,z):
-        self.buttons[x].configure(text="{0}".format(self.game.recieves_play()))
+        self.buttons[x].configure(text="{0}".format(self.game.recieves_play()), font = "Forte 25 bold")
         if self.game.player=="X":
             self.game.matriz[y][z] = 1
-            self.label_player.configure(text="Vez de O")
+            self.label_player.configure(text="Vez de O", font="BrandleyHandITC 18")
         else:
             self.game.matriz[y][z] = 4
-            self.label_player.configure(text="Vez de X")
+            self.label_player.configure(text="Vez de X", font="BrandleyHandITC 18")
         self.buttons[x].configure(state="disabled")
         self.end_match()
     
     def end_match(self):
         if self.game.verify_winner()==1:
-            self.label_player.configure(text="X ganhou!")
+            self.label_player.configure(text="X ganhou!", font="BrandleyHandITC 18")
             for r in range(9):
                 self.buttons[r].configure(state="disabled")
         elif self.game.verify_winner()==2:
-            self.label_player.configure(text="O ganhou!")
+            self.label_player.configure(text="O ganhou!", font="BrandleyHandITC 18")
             for r in range(9):
                 self.buttons[r].configure(state="disabled")
         elif self.game.verify_winner()==0:
-            self.label_player.configure(text="Deu Velha!")
+            self.label_player.configure(text="Deu Velha!", font="BrandleyHandITC 18")
     
     def rematch(self):
         if self.game.restart_match()==False:
             for r in range(9):
                 self.buttons[r].configure(text="",state="active")
-            self.label_player.configure(text="Vez de X")
+            self.label_player.configure(text="Vez de X", font="BrandleyHandITC 18")
             self.game.turn=1
             self.game.matriz=np.zeros(shape=[3,3])
         
